@@ -3,29 +3,10 @@ img.AngularJS-small {
   height: 25px;
 }
 
-/* this is here to avoid the display=block shuffling of ngShow */
-.breadcrumb li > * {
-  float:left;
-  margin:0 2px 0 0;
-}
-
 .breadcrumb {
   padding-top: 6px;
   padding-bottom: 0;
   line-height: 18px
-}
-
-.navbar img {
-  max-height: 40px;
-  padding-right: 20px;
-}
-
-.navbar img+.brand {
-  padding: 10px 20px 10px 10px;
-}
-
-.clear-navbar {
-  margin-top: 60px;
 }
 
 .footer {
@@ -39,21 +20,65 @@ img.AngularJS-small {
   height: 1em;
 }
 
+.ngdocs-body{
+    background: white !important;
+}
+.ngdocs-body .form-search .form-control{
+    border-radius: 100px;
+}
+.ngdocs-sidebar .list-group{
+    border-radius: 4px;
+    box-shadow: 1px 1px 1px rgba(0, 0, 0, 0.1);
+}
+.ngdocs-sidebar .list-group:hover{
+    box-shadow: 1px 1px 10px rgba(0, 0, 0, 0.15);
+}
+.ngdocs-sidebar .list-group .list-group-item{
+    padding: 2px 10px;
+}
+.ngdocs-sidebar .list-group .list-group-item.active a{
+    color: white;
+}
+.ngdocs-sidebar .list-group .list-group-item.active{
+    color: white;
+}
+.ngdocs-sidebar .list-group .list-group-item-success{
+    background-color: #6dc14a;
+    border-color: #6dc14a;
+}
+.ngdocs-sidebar .list-group a {
+    color: #337ab7;
+}
+.ngdocs-sidebar .list-group .list-group-item-success a{
+    color: white;
+}
 
-.icon-cog {
-  line-height: 13px;
+.ngdocs-sidebar .list-group-item:first-child{
+    border-top-left-radius: 4px;
+    border-top-right-radius: 4px;
+}
+.ngdocs-sidebar .list-group-item:first-child{
+    border-top-left-radius: 4px;
+    border-top-right-radius: 4px;
+}
+.ngdocs-sidebar .list-group .list-group-item.section{
+    text-align: right;
+    font-weight: bold;
+    background: #eeeeee;
+    padding-top: 1px;
+    padding-bottom: 1px;
+    cursor: default;
+    font-size: 13px;
+}
+.ngdocs-body .prettyprint .linenums{
+    padding-left: 0px;
+}
+.ngdocs-body header{
+    opacity: 0.98;
+    box-shadow: 0px 0px 3px rgba(0, 0, 0, 0.7);
 }
 
 /* =============================== */
-
-.form-search {
-  margin-right: 10px;
-}
-
-.form-search .search-query {
-  width: 180px;
-  width: 200px \9;
-}
 
 .form-search .dropdown-menu {
   margin-left: 10px;
@@ -66,74 +91,6 @@ img.AngularJS-small {
   color: black;
   overflow: hidden;
   text-overflow: ellipsis;
-}
-
-.form-search > ul.nav > li > a {
-  margin: 0;
-}
-
-.form-search > ul.nav > li.module {
-  background-color: #d3d3d3;
-}
-
-.form-search > ul.nav > li.section {
-  background-color: #ebebeb;
-  min-height: 14px;
-}
-
-.form-search > ul.nav > li.first {
-  padding-top: 6px;
-}
-
-.form-search > ul.nav > li.last {
-  padding-bottom: 6px;
-}
-
-.form-search > ul.nav > li.last + li.api-list-item {
-  margin-top: -6px;
-  padding-bottom: 6px;
-}
-
-.form-search .well {
-  border-color: #d3d3d3;
-  padding: 0;
-  margin-bottom: 15px;
-}
-
-.form-search .well .nav-header {
-  text-transform: none;
-  padding: 3px 1px;
-  margin: 0;
-}
-
-.form-search .well .nav-header a {
-  text-transform: none;
-  color: black;
-}
-.form-search .well .nav-header a:hover {
-  background-color: inherit;
-}
-
-.form-search .well li {
-  line-height: 14px;
-}
-
-.form-search .well li a:focus {
-	outline: none;
-}
-
-.form-search .well .guide {
-  float: right;
-  padding-top: 0;
-  color: gray;
-}
-
-.form-search .module .guide {
-  line-height: 20px;
-}
-
-.match > a, .nav > .match > a:hover {
-	background-color: #dbeaf4;
 }
 
 /* =============================== */

@@ -229,6 +229,7 @@ docsApp.serviceFactory.sections = function serviceFactory() {
 docsApp.controller.DocsController = function($scope, $location, $window, sections) {
   var INDEX_PATH = /^(\/|\/index[^\.]*.html)$/,
       GLOBALS = /^angular\.([^\.]+)$/,
+      WINDOW_GLOBALS = /^window\.([^\.]+)$/,
       MODULE = /^([^\.]+)$/,
       MODULE_MOCK = /^angular\.mock\.([^\.]+)$/,
       MODULE_CONTROLLER = /^(.+)\.controllers?:([^\.]+)$/,
@@ -312,6 +313,8 @@ docsApp.controller.DocsController = function($scope, $location, $window, section
       if (partialId == 'angular.Module') {
         breadcrumb.push({ name: 'angular.Module' });
       } else if (match = partialId.match(GLOBALS)) {
+        breadcrumb.push({ name: partialId });
+      } else if (match = partialId.match(WINDOW_GLOBALS)) {
         breadcrumb.push({ name: partialId });
       } else if (match = partialId.match(MODULE)) {
         match[1] = page.moduleName || match[1];
@@ -405,6 +408,8 @@ docsApp.controller.DocsController = function($scope, $location, $window, section
         module('ng', section).types.push(page);
       } else if (match = id.match(GLOBALS)) {
         module('ng', section).globals.push(page);
+      } else if (match = id.match(WINDOW_GLOBALS)) {
+        module('GLOBAL', section).globals.push(page);
       } else if (match = id.match(MODULE)) {
         module(page.moduleName || match[1], section);
       } else if (match = id.match(MODULE_FILTER)) {
@@ -451,6 +456,7 @@ docsApp.controller.DocsController = function($scope, $location, $window, section
       if (!module) {
         module = cache[name] = {
           name: name,
+          safeName: name.split('.').join('-'),
           url: (NG_DOCS.html5Mode ? '' : '#/') + section + '/' + name,
           globals: [],
           controllers: [],
@@ -469,7 +475,11 @@ docsApp.controller.DocsController = function($scope, $location, $window, section
           types: [],
           filters: []
         };
-        modules.push(module);
+        if (name=='GLOBAL'){
+          modules.unshift(module);
+        } else{
+          modules.push(module);
+        }
       }
       return module;
     }

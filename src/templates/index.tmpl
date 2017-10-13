@@ -173,8 +173,7 @@
           </ul>
 
           <div class="list-group" ng-repeat="module in modules track by module.url">
-            <div class="list-group-item list-group-item-success">
-              <span class="badge">module</span>
+            <div class="list-group-item list-group-item-success module-{{module.safeName}}">
               <a class="code" href="{{module.url}}" title="{{module.name}}">{{module.name}}</a>
             </div>
 

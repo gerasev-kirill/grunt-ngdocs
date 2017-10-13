@@ -1002,6 +1002,7 @@ Doc.prototype = {
 
 //////////////////////////////////////////////////////////
 var GLOBALS = /^angular\.([^\.]+)$/,
+    WINDOW_GLOBALS = /^window\.([^\.]+)$/,
     MODULE = /^([^\.]+)$/,
     MODULE_MOCK = /^angular\.mock\.([^\.]+)$/,
     MODULE_CONTROLLER = /^(.+)\.controllers?:([^\.]+)$/,
@@ -1047,6 +1048,8 @@ function title(doc) {
     return makeTitle(doc.fullName, 'error', 'component', doc.getMinerrNamespace());
   } else if (text == 'angular.Module') {
     return makeTitle('Module', 'Type', 'module', 'ng');
+  } else if (match = text.match(WINDOW_GLOBALS)){
+    return makeTitle('window.' + match[1], 'API', '(global scope)', 'window');
   } else if (match = text.match(GLOBALS)) {
     return makeTitle('angular.' + match[1], 'API', 'module', 'ng');
   } else if (match = text.match(MODULE)) {

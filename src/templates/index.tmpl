@@ -21,6 +21,7 @@
           origin, baseUrl, rUrl = /(\/?#!\/.*|\/(<%= sections %>)\/?(\?.*)*|\/index[^\.]*\.html.*)$/,
           headEl = document.getElementsByTagName('head')[0],
           sync = true;
+      window.NGDOCS_SIDEBAR_PREFS = <%= initialSidebarPrefs %>;
 
       if (location.href.slice(0, 7) == 'file://') {
         baseUrl = location.href.replace(rUrl, '/' + indexFile);
@@ -172,70 +173,74 @@
             </li>
           </ul>
 
-          <div class="list-group" ng-repeat="module in modules track by module.url">
-            <div class="list-group-item list-group-item-success module-{{module.safeName}}">
+          <div class="list-group module-{{module.safeName}}" ng-repeat="module in modules track by module.url">
+            <div class="list-group-item list-group-item-success">
               <a class="code" href="{{module.url}}" title="{{module.name}}">{{module.name}}</a>
+              <button class="btn btn-xs btn-default btn-list-group-collapse pull-right" ng-click="toggleListGroupCollapse(module.name)" type="button" ng-class="{active: module.isListGroupCollapsed}">
+                  <span class='fa' ng-class="{'fa-angle-down': !module.isListGroupCollapsed, 'fa-angle-left': module.isListGroupCollapsed}"></span>
+              </button>
             </div>
+            <div class="collapse" ng-class="{in: !module.isListGroupCollapsed}">
+                <a ng-repeat="page in module.others track by page.url"
+                        ng-class="navClass(page)"  href="{{page.url}}"
+                        class="list-group-item">
+                    {{page.shortName}}
+                </a>
 
-            <a ng-repeat="page in module.others track by page.url"
-                    ng-class="navClass(page)"  href="{{page.url}}"
-                    class="list-group-item">
-                {{page.shortName}}
-            </a>
+                <div class="list-group-item section" ng-show="module.directives.length">
+                    directive
+                </div>
+                <a ng-repeat="page in module.directives track by page.url"
+                        ng-class="navClass(page)" href="{{page.url}}"
+                        class="list-group-item">
+                    {{page.shortName}}
+                </a>
 
-            <div class="list-group-item section" ng-show="module.directives.length">
-                directive
-            </div>
-            <a ng-repeat="page in module.directives track by page.url"
-                    ng-class="navClass(page)" href="{{page.url}}"
-                    class="list-group-item">
-                {{page.shortName}}
-            </a>
+                <div class="list-group-item section" ng-show="module.controllers.length">
+                  controller
+                </div>
+                <a ng-repeat="page in module.controllers track by page.url"
+                        ng-class="navClass(page)" href="{{page.url}}"
+                        class="list-group-item">
+                    {{page.shortName}}
+                </a>
 
-            <div class="list-group-item section" ng-show="module.controllers.length">
-              controller
-            </div>
-            <a ng-repeat="page in module.controllers track by page.url"
-                    ng-class="navClass(page)" href="{{page.url}}"
-                    class="list-group-item">
-                {{page.shortName}}
-            </a>
+                <div class="list-group-item section" ng-show="module.filters.length">
+                    filter
+                </div>
+                <a ng-repeat="page in module.filters track by page.url"
+                        ng-class="navClass(page)" href="{{page.url}}"
+                        class="list-group-item">
+                    {{page.shortName}}
+                </a>
 
-            <div class="list-group-item section" ng-show="module.filters.length">
-                filter
-            </div>
-            <a ng-repeat="page in module.filters track by page.url"
-                    ng-class="navClass(page)" href="{{page.url}}"
-                    class="list-group-item">
-                {{page.shortName}}
-            </a>
+                <div class="list-group-item section" ng-show="module.services.length">
+                    service
+                </div>
+                <div ng-repeat="service in module.services track by  (service.instance.url || service.provider.url)" ng-class="navClass(service.instance, service.provider)" class="list-group-item">
+                    <a ng-show="service.provider" class="pull-right" href="{{service.provider.url}}" tabindex="2"><i class="fa fa-cog"></i></a>
+                    <a href="{{service.instance ? service.instance.url : service.provider.url}}" tabindex="2">{{service.name}}</a>
+                </div>
 
-            <div class="list-group-item section" ng-show="module.services.length">
-                service
-            </div>
-            <div ng-repeat="service in module.services track by  (service.instance.url || service.provider.url)" ng-class="navClass(service.instance, service.provider)" class="list-group-item">
-                <a ng-show="service.provider" class="pull-right" href="{{service.provider.url}}" tabindex="2"><i class="fa fa-cog"></i></a>
-                <a href="{{service.instance ? service.instance.url : service.provider.url}}" tabindex="2">{{service.name}}</a>
-            </div>
+                <div class="list-group-item section" ng-show="module.types.length">
+                    Types
+                </div>
+                <a ng-repeat="page in module.types track by page.url"
+                        ng-class="navClass(page)" href="{{page.url}}"
+                        class="list-group-item">
+                    {{page.shortName}}
+                </a>
 
-            <div class="list-group-item section" ng-show="module.types.length">
-                Types
+                <div class="list-group-item section" ng-show="module.globals.length">
+                  global APIs
+                  &nbsp;
+                </div>
+                <a ng-repeat="page in module.globals track by page.url"
+                        ng-class="navClass(page)" href="{{page.url}}"
+                        class="list-group-item">
+                    {{page.id}}
+                </a>
             </div>
-            <a ng-repeat="page in module.types track by page.url"
-                    ng-class="navClass(page)" href="{{page.url}}"
-                    class="list-group-item">
-                {{page.shortName}}
-            </a>
-
-            <div class="list-group-item section" ng-show="module.globals.length">
-              global APIs
-              &nbsp;
-            </div>
-            <a ng-repeat="page in module.globals track by page.url"
-                    ng-class="navClass(page)" href="{{page.url}}"
-                    class="list-group-item">
-                {{page.id}}
-            </a>
 
         </div>
 
@@ -256,7 +261,10 @@
 
         <div id="loading" ng-show="loading">Loading...</div>
 
-        <div ng-hide="loading" ng-include src="currentPage.partialUrl" onload="afterPartialLoaded()" autoscroll class="content slide-reveal"></div>
+        <div ng-hide="loading" ng-include src="currentPage.partialUrl"
+            onload="afterPartialLoaded()" autoscroll
+            class="content slide-reveal content-page-{{$parent.currentPage.safeId}}">
+        </div>
 <% if (discussions) { %>
         <div id="disqus" class="disqus">
           <h2>Discussion</h2>

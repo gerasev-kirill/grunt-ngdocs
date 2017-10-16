@@ -218,6 +218,7 @@ docsApp.serviceFactory.sections = function serviceFactory() {
       page.partialUrl = 'partials/' + url.replace(':', '.') + '.html';
     }
     page.url = (NG_DOCS.html5Mode ? '' : '#/') + url;
+    page.safeId = page.id.split('.').join('-').toLowerCase();
     if (!sections[page.section]) { sections[page.section] = []; }
     sections[page.section].push(page);
   });
@@ -240,6 +241,19 @@ docsApp.controller.DocsController = function($scope, $location, $window, section
       MODULE_SERVICE = /^(.+)\.([^\.]+?)(Provider)?$/,
       MODULE_TYPE = /^([^\.]+)\..+\.([A-Z][^\.]+)$/;
 
+
+  function getFromLocalStorage(key){
+    try{
+      return localStorage.getItem('NGDOCS_'+key)
+    }catch (e){
+      return undefined
+    }
+  }
+  function saveToLocalStorage(key, value){
+    try {
+      localStorage.setItem('NGDOCS_'+key, value)
+    } catch (e) {}
+  }
 
   /**********************************
    Publish methods
@@ -277,6 +291,18 @@ docsApp.controller.DocsController = function($scope, $location, $window, section
     loadDisqus(currentPageId);
   };
 
+  $scope.toggleListGroupCollapse = function(module_name){
+    for (var i = 0; i < $scope.modules.length; i++){
+      if ($scope.modules[i].name != module_name){
+        continue
+      }
+      $scope.modules[i].isListGroupCollapsed = !$scope.modules[i].isListGroupCollapsed
+      saveToLocalStorage(
+        'isListGroupCollapsed_'+module_name,
+        $scope.modules[i].isListGroupCollapsed
+      );
+    }
+  }
 
   /**********************************
    Watches
@@ -454,9 +480,19 @@ docsApp.controller.DocsController = function($scope, $location, $window, section
     function module(name, section) {
       var module = cache[name];
       if (!module) {
+        var isListGroupCollapsed = getFromLocalStorage('isListGroupCollapsed_'+name);
+        if (!angular.isDefined(isListGroupCollapsed) || isListGroupCollapsed === null){
+          isListGroupCollapsed = false;
+          if (window.NGDOCS_SIDEBAR_PREFS.collapsed && window.NGDOCS_SIDEBAR_PREFS.collapsed.indexOf(name)>-1){
+            isListGroupCollapsed = true;
+          }
+        } else {
+          isListGroupCollapsed = (isListGroupCollapsed === 'true');
+        }
         module = cache[name] = {
           name: name,
-          safeName: name.split('.').join('-'),
+          safeName: name.split('.').join('-').toLowerCase(),
+          isListGroupCollapsed: isListGroupCollapsed,
           url: (NG_DOCS.html5Mode ? '' : '#/') + section + '/' + name,
           globals: [],
           controllers: [],

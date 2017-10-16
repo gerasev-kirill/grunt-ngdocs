@@ -246,6 +246,7 @@ ul.events > li > h3 {
 
 .type-hint {
   display:inline-block;
+  background: black;
 }
 
 .variables-matrix .type-hint {
@@ -267,7 +268,7 @@ ul.events > li > h3 {
 }
 
 .type-hint-array {
-  background:#F90;;
+  background:#F90;
 }
 
 .type-hint-boolean {
@@ -276,4 +277,32 @@ ul.events > li > h3 {
 
 .type-hint-number {
   background:rgb(189, 63, 66);
+}
+
+.type-hint-any{
+  background: #b7009d;
+}
+
+.type-hint-regexp{
+  background: #63c9ff;
+}
+
+
+
+.btn-list-group-collapse{
+  width: 1.5em;
+  height: 1.5em;
+  border-radius: 50% !important;
+  line-height: 0 !important;
+  padding: 0 !important;
+  text-align: center !important;
+}
+
+.btn-list-group-collapse > .fa{
+  padding: 0 !important;
+  font-size: 1.3em;
+}
+
+.btn-list-group-collapse > .fa-angle-left{
+  padding-bottom: 1px !important;
 }

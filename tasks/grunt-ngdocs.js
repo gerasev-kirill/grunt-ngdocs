@@ -217,7 +217,8 @@ module.exports = function(grunt) {
           titleLink: options.titleLink,
           imageLink: options.imageLink,
           bestMatch: options.bestMatch,
-          deferLoad: !!options.deferLoad
+          deferLoad: !!options.deferLoad,
+          initialSidebarPrefs: JSON.stringify(options.initialSidebarPrefs || {})
         },
         template = options.template ? options.template : path.resolve(templates, 'index.tmpl');
 

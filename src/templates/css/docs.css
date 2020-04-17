@@ -306,3 +306,7 @@ ul.events > li > h3 {
 .btn-list-group-collapse > .fa-angle-left{
   padding-bottom: 1px !important;
 }
+
+.inline-block{
+    display: inline-block !important;
+}
